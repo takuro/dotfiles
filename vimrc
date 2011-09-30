@@ -1,5 +1,4 @@
-" ----- start vundle settings -----
-
+" ----- start vundle settings ----- 
 set nocompatible   " be iMproved
 filetype off       " required!
 
@@ -13,13 +12,17 @@ Bundle 'gmarik/vundle'
 " My Bundles here:
 "
 " original repos on github
-Bundle 'tpope/vim-fugitive'
-Bundle 'Lokaltog/vim-easymotion'
-Bundle 'rstacruz/sparkup', {'rtp': 'vim/'}
-Bundle 'Shougo/unite.vim'
+Bundle 'git://github.com/tpope/vim-fugitive.git'
+Bundle 'git://github.com/Lokaltog/vim-easymotion.git'
+Bundle 'git://github.com/rstacruz/sparkup.git', {'rtp': 'vim/'}
+Bundle 'git://github.com/Shougo/unite.vim.git'
+Bundle 'git://github.com/tpope/vim-rails.git'
+Bundle 'git://github.com/tpope/vim-haml.git'
+Bundle 'git://github.com/scrooloose/nerdcommenter.git'
+Bundle 'git://github.com/vim-scripts/AutoComplPop.git'
 " vim-scripts repos
-Bundle 'rails.vim'
 " non github repos
+Bundle 'git://github.com/vim-scripts/jQuery.git'
 " ...
 
 filetype plugin indent on     " required! 
@@ -139,10 +142,10 @@ vnoremap " "zdi^V"<C-R>z^V"<ESC>
 vnoremap ' "zdi'<C-R>z'<ESC>
 
 " [web dev]
-au BufNewFile,BufRead *.haml set ft=mason fenc=utf-8
+"au BufNewFile,BufRead *.haml set ft=mason fenc=utf-8
 au BufNewFile,BufRead *.html set ft=mason fenc=utf-8
-au BufNewFile,BufRead *.scss set ft=mason fenc=utf-8
-au BufNewFile,BufRead *.rb set ft=ruby fenc=utf-8
+"au BufNewFile,BufRead *.scss set ft=mason fenc=utf-8
+"au BufNewFile,BufRead *.rb set ft=ruby fenc=utf-8
 au BufRead,BufNewFile *.js set ft=javascript syntax=jquery
 
 " [tips]
@@ -156,3 +159,26 @@ nnoremap <silent> ,ur :<C-u>Unite -buffer-name=register register<CR>
 nnoremap <silent> ,um :<C-u>Unite file_mru<CR>
 nnoremap <silent> ,uu :<C-u>Unite buffer file_mru<CR>
 nnoremap <silent> ,ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
+
+" [sub menu]
+highlight Pmenu ctermbg=7 ctermfg=0
+highlight PmenuSel ctermbg=6 ctermfg=0
+highlight PmenuSbar ctermbg=3
+highlight PmenuThumb ctermbg=0 guibg=Red
+
+" [AutoComplPop]
+function InsertTabWrapper()
+  if pumvisible()
+    return "\<c-n>"
+  endif
+  let col = col('.') - 1
+  if !col || getline('.')[col -1] !~ '\k\|<\|/'
+    return "\<tab>"
+  elseif exists('&omnifunc') && &omnifunc == ''
+    return "\<c-n>"
+  else
+    return "\<c-x>\<c-o>"
+  endif
+endfunction
+inoremap <tab> <c-r>=InsertTabWrapper()<cr>
+
