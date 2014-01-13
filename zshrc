@@ -9,3 +9,5 @@ if [ -d $ZSHHOME -a -r $ZSHHOME -a \
    done
 fi
 
+
+PATH=$PATH:$HOME/.rvm/bin # Add RVM to PATH for scripting

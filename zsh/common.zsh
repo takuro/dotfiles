@@ -117,7 +117,7 @@ alias ls="ls --color"
 esac
 alias la="ls -a"
 alias lf="ls -F"
-alias ll="ls -l"
+alias ll='ls -Flh --time-style=+" %Y/%m/%d %H:%M:%S "'
 alias du="du -h"
 alias df="df -h"
 
