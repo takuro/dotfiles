@@ -125,3 +125,6 @@ alias df="df -h"
 setopt noautoremoveslash
 
 alias rgrep='find . -type f -print0 | xargs -0 grep'
+alias ntpdate='sudo ntpdate -v ntp.nict.jp'
+alias vi=vim
+alias cp='cp -p'

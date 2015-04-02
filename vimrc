@@ -132,10 +132,8 @@ nnoremap <C-Right> gt
 nnoremap <C-Left> gT
 
 " [web dev]
-"au BufNewFile,BufRead *.haml set ft=mason fenc=utf-8
 au BufNewFile,BufRead *.html set ft=mason fenc=utf-8
-"au BufNewFile,BufRead *.scss set ft=mason fenc=utf-8
-"au BufNewFile,BufRead *.rb set ft=ruby fenc=utf-8
+au BufNewFile,BufRead *.rb set ft=ruby fenc=utf-8
 au BufRead,BufNewFile *.js set ft=javascript syntax=jquery
 
 " [tips]
@@ -146,4 +144,20 @@ highlight Pmenu ctermbg=7 ctermfg=0
 highlight PmenuSel ctermbg=6 ctermfg=0
 highlight PmenuSbar ctermbg=3
 highlight PmenuThumb ctermbg=0 guibg=Red
+
+" [AutoComplPop]
+function InsertTabWrapper()
+  if pumvisible()
+    return "\<c-n>"
+  endif
+  let col = col('.') - 1
+  if !col || getline('.')[col -1] !~ '\k\|<\|/'
+    return "\<tab>"
+  elseif exists('&omnifunc') && &omnifunc == ''
+    return "\<c-n>"
+  else
+    return "\<c-x>\<c-o>"
+  endif
+endfunction
+inoremap <tab> <c-r>=InsertTabWrapper()<cr>
 
