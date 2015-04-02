@@ -1,47 +1,44 @@
-" ----- start vundle settings ----- 
-set nocompatible   " be iMproved
-filetype off       " required!
+set encoding=utf-8
+scriptencoding utf-8
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
-" let Vundle manage Vundle
-" required! 
-Bundle 'gmarik/vundle'
-
-" My Bundles here:
+" ----- start Neobundle settings -----
 "
-" original repos on github
-Bundle 'git://github.com/tpope/vim-fugitive.git'
-Bundle 'git://github.com/Lokaltog/vim-easymotion.git'
-Bundle 'git://github.com/rstacruz/sparkup.git', {'rtp': 'vim/'}
-Bundle 'git://github.com/Shougo/unite.vim.git'
-Bundle 'git://github.com/tpope/vim-rails.git'
-Bundle 'git://github.com/tpope/vim-haml.git'
-Bundle 'git://github.com/scrooloose/nerdcommenter.git'
-Bundle 'git://github.com/vim-scripts/AutoComplPop.git'
-" vim-scripts repos
-" non github repos
-Bundle 'git://github.com/vim-scripts/jQuery.git'
-" ...
+" mkdir -p ~.vim/bundle
+" git clone https://github.com/Shougo/neobundle.vim ~/.vim/bundle/neobundle.vim
 
-filetype plugin indent on     " required! 
-"
-" Brief help
-" :BundleList          - list configured bundles
-" :BundleInstall(!)    - install(update) bundles
-" :BundleSearch(!) foo - search(or refresh cache first) for foo
-" :BundleClean(!)      - confirm(or auto-approve) removal of unused bundles
-"
-" see :h vundle for more details or wiki for FAQ
-" NOTE: comments after Bundle command are not allowed..
+set runtimepath+=~/.vim/bundle/neobundle.vim/
+ 
+" Required:
+call neobundle#begin(expand('~/.vim/bundle/'))
 
-" ----- end vundle settings -----
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+NeoBundle 'Shougo/neocomplete'
+NeoBundle 'Shougo/neosnippet'
+NeoBundle 'Shougo/neosnippet-snippets'
+
+NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'Townk/vim-autoclose'
+NeoBundle 'mattn/emmet-vim'
+NeoBundle 'thinca/vim-quickrun'
+NeoBundle 'grep.vim'
+NeoBundle 'scrooloose/syntastic'
+NeoBundle 'vim-scripts/AutoComplPop'
+
+call neobundle#end()
+
+" Required:
+filetype plugin indent on
+
+NeoBundleCheck
+
+" ----- end Neobundle settings -----
 
 " ----- start my settings -----
+
 " [general]
-set history=30
-set undolevels=10000
+set history=256
+set undolevels=100000
 
 " [search]
 set ignorecase
@@ -129,17 +126,10 @@ if exists('&ambiwidth')
   set ambiwidth=double
 endif
 
-" [complement]
-inoremap { {}<LEFT>
-inoremap [ []<LEFT>
-inoremap ( ()<LEFT>
-inoremap " ""<LEFT>
-inoremap ' ''<LEFT>
-vnoremap { "zdi^V{<C-R>z}<ESC>
-vnoremap [ "zdi^V[<C-R>z]<ESC>
-vnoremap ( "zdi^V(<C-R>z)<ESC>
-vnoremap " "zdi^V"<C-R>z^V"<ESC>
-vnoremap ' "zdi'<C-R>z'<ESC>
+" [Keymap]
+nnoremap <silent><C-e> :NERDTreeToggle<CR>
+nnoremap <C-Right> gt
+nnoremap <C-Left> gT
 
 " [web dev]
 "au BufNewFile,BufRead *.haml set ft=mason fenc=utf-8
@@ -151,34 +141,9 @@ au BufRead,BufNewFile *.js set ft=javascript syntax=jquery
 " [tips]
 cmap w!! %!sudo tee > /dev/null %
 
-" [unite]
-let g:unite_enable_start_insert=1
-noremap <C-P> :Unite buffer<CR>
-noremap <C-N> :Unite -buffer-name=file file<CR>
-nnoremap <silent> ,ur :<C-u>Unite -buffer-name=register register<CR>
-nnoremap <silent> ,um :<C-u>Unite file_mru<CR>
-nnoremap <silent> ,uu :<C-u>Unite buffer file_mru<CR>
-nnoremap <silent> ,ua :<C-u>UniteWithBufferDir -buffer-name=files buffer file_mru bookmark file<CR>
-
 " [sub menu]
 highlight Pmenu ctermbg=7 ctermfg=0
 highlight PmenuSel ctermbg=6 ctermfg=0
 highlight PmenuSbar ctermbg=3
 highlight PmenuThumb ctermbg=0 guibg=Red
-
-" [AutoComplPop]
-function InsertTabWrapper()
-  if pumvisible()
-    return "\<c-n>"
-  endif
-  let col = col('.') - 1
-  if !col || getline('.')[col -1] !~ '\k\|<\|/'
-    return "\<tab>"
-  elseif exists('&omnifunc') && &omnifunc == ''
-    return "\<c-n>"
-  else
-    return "\<c-x>\<c-o>"
-  endif
-endfunction
-inoremap <tab> <c-r>=InsertTabWrapper()<cr>
 
